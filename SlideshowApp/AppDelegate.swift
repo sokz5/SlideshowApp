@@ -7,10 +7,15 @@
 
 import UIKit
 
+//画像のリスト(配列)
+var imageList:[UIImage] = [
+  UIImage(named: "1")!,
+  UIImage(named: "2")!,
+  UIImage(named: "3")!
+]
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
