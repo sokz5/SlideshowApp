@@ -16,9 +16,18 @@ class ViewController: UIViewController {
   @IBOutlet weak var zoomButton: UIButton!
   @IBOutlet weak var imageView: UIImageView!
   
-  //imageListの配列はAppDelegateで広域変数(非推奨らしい)←ZoomViewControllerで同じものを用いるため
+  //imageListの配列
+  var imageList:[UIImage] = [
+    UIImage(named: "1")!,
+    UIImage(named: "2")!,
+    UIImage(named: "3")!
+  ]
+  
   //画像の順番判別のための変数
   var nowIndex:Int = 0
+  
+  //遷移から戻ってきたとき、スライドショーを再開するかの判別変数
+  var check:Bool = false
   
   //タイマー
   var timer: Timer!
@@ -42,7 +51,11 @@ class ViewController: UIViewController {
   //画像をタップしたときの拡大表示のnowIndexの番号をZoomViewControllerに送るための関数
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let zoomViewController:ZoomViewController = segue.destination as! ZoomViewController
-    zoomViewController.index = nowIndex
+    zoomViewController.image = imageView.image!
+    if self.timer != nil {
+      self.timer.invalidate()
+      check = true
+    }
   }
   
   //進むボタンを押したときの処理(処理自体はタイマーで用いる関数と同様)
@@ -68,25 +81,24 @@ class ViewController: UIViewController {
   //再生/停止ボタンを押したときの処理、nilの状態で判断して、各種処理を行う
   @IBAction func slideshow(_ sender: Any) {
     if self.timer == nil {
-      
-      
       self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
       self.startButton.setTitle("停止", for: .normal)
       self.nextButton.isEnabled = false
       self.backbutton.isEnabled = false
-      self.zoomButton.isEnabled = false
     } else {
       self.timer.invalidate()
       self.timer = nil
       self.startButton.setTitle("再生", for: .normal)
       self.nextButton.isEnabled = true
       self.backbutton.isEnabled = true
-      self.zoomButton.isEnabled = true
     }
   }
   
   //ZoomViewControllerから戻ってきたときの処理(形式上)
   @IBAction func unwind(_ segue: UIStoryboardSegue) {
+    if check == true {
+      self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+    }
   }
   
 }

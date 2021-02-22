@@ -11,11 +11,11 @@ class ZoomViewController: UIViewController {
     @IBOutlet weak var zoomView: UIImageView!
     
     //ViewControllerから送られてくるnowIndexの番号のために変数を用意
-    var index:Int = 0
+    var image = UIImage()
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        zoomView.image = imageList[index]
+        zoomView.image = image
     }
     
 }
