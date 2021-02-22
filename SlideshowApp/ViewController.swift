@@ -98,6 +98,7 @@ class ViewController: UIViewController {
   @IBAction func unwind(_ segue: UIStoryboardSegue) {
     if check == true {
       self.timer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(updateTimer(_:)), userInfo: nil, repeats: true)
+      check = false
     }
   }
   
